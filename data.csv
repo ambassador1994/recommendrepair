@@ -1,0 +1,266 @@
+504791,"version-bump.pl doesn't know how to bump comm-central branch version files,match any $(app)/config/version*.txt file
+As comm-central allows both builds with a branch repository and mozilla-central, we have multiple $(app)/config/version*.txt files to state different versions based on the platform we are building with.
+I just wanted to start the SeaMonkey 2.0b1 builds and the tag factory failed with version-bump.pl not knowing what the version-191.txt file is that we need to bump there.
+The solution is to match any $(app)/config/version*.txt file in the part of version-bump.pl that determines in what way to bump that file.
+I have tested that this patch works correctly with both version.txt and version-191.txt files and I need it ASAP to be able to build SeaMonkey 2.0 Beta 1.",Release Engineering,"my $versionTxt = catfile($appName, 'config', 'version.txt');",5,11,,,
+535304,"mobile release automation should be bumping mobile-browser versions Currently, the automation relies on sourceRepoRevision version to have the ""release"" version number (eg, 1.0 instead of 1.0pre). We shouldn't rely on that. Rather, we should bump confvars.sh in bumpFiles and version-bump.pl should be updated to be able to bump it. There may be additional complication due to the fact that we have different version numbers on different mobile platforms.",Release Engineering,MOZ_APP_VERSION=1.0a4pre，  MOZ_APP_VERSION=1.1a1pre,1,,,,
+582637,"Bump application.ini MinVersion to 1.9.2.0 etpack requires Gecko 1.9.2 (and install.rdf does list 3.6 as the Firefox minVersion), but application.ini still lists 1.9.1 as MinVersion, causing errors when people use cfx with an old XULRunner like this person did: BTW, separately I tried to update MaxVersion to 2.0b3pre, but Minefield immediately exits after it starts.  Don't know what's going on there.",Add-on SDK,MinVersion=1.9.1.0,1,,,,
+607010,set android:versionCode (in AndroidManifest.xml) to something other than 1 My reading of the docs is that it should essentially be monotonically increasing. I think we should just set it to our build id (the date).,core,"android:versionCode=""1""",1,,,,
+608484,"Port |Bug 595805 - Update required cairo version to 1.10 | to comm-central This bug only fixes required cairo version string in configure script. Cairo in m-c has been already updated to 1.10 which have new function. So the configure
+script in c-c should require cairo-1.10.",MailNews Core,CAIRO_VERSION=1.8.8,1,,,,
+688370,"Blocklist all Flash versions < 10.3.183.10 on Intel due to 0-day Raises minimum permitted version to 10.3.183.10 on Intel
+
+http://www.adobe.com/support/security/bulletins/apsb11-26.html reports another Flash 0-day, affecting all versions older than 10.3.183.7 and suggesting users upgrade to 10.3.183.10.
+
+Per bug 662666 comment 15 et seq, I believe this meets our criteria for raising the minimum version; the attached patch does so.  (Can I get a blanket-sr for doing this for 0-days in the future, at least as long as Flash 10.3 is supported and we don't need new code to handle Flash 11 being 10.6+ only?)",Camino Graveyard,"static const VersionStruct minFlashVersion = { 10, 3, 181, 26 };",？,1,,,
+713018,"version-bump.pl doesn't handle 2-digit major version
+RESOLVED FIXED,build/tools/scripts/release/version-bump.pl doesn't handle a 2-digit major version and fails on 10.0 beta.",Release Engineering,my $VERSION_REGEXP = '\d\.\d[\d\.]*',1,12,,,
+731326,"bump mozharness to version 0.5 Here's the summary of the delta between 0.4 and 0.5:
+
+* Retired Maemo scripts (Maemo tier 3)
+* Supported Android native work
+** Android single locale repacks
+** Added Android signing with passphrase verification, signature verification, and update snippet creation
+* peptest
+* improved virtualenv support, with real-life mozbase usage in peptest
+* fixed actions-in-config-files
+* precompiled error_list regexes
+* separated the output parser from run_command() so we can
+** parse output from subprocess or get_output_from_command(),
+** eventually add context lines to output parsing, and
+** potentially split parallel actions into their own objects
+* added chunking support to split up jobs
+* improved OSMixin and ShellMixin methods
+* query_exe() and which() support to specify or find executables
+* add_failure(), query_failure(), and summarize_success_count() support to track status over a list of tasks
+* added a BuildbotMixin to tie into our buildbot infrastructure
+* Added a setup.py
+* Added a pyflakes call and Debian/Ubuntu support to unit.sh
+
+It's overdue.",Release Engineering," version = (0,4)",1,,,,
+816675,"update sutagent to version 1.15 oh the time has come for another sutagent upgrade, this time with a watcher upgrade as well.
+
+SUTAgentAndroid:
+http://people.mozilla.org/~jmaher/sutagent/SUTAgentAndroid1.15.apk
+
+Watcher:
+http://people.mozilla.org/~jmaher/sutagent/watcher1.15.apk",Release Engineering,"target_version = ""1.14""",1,,,,
+868192,"Standardize the version of hg used on Mac slaves We should update the Mac slaves to hg version 2.5.4 also. This may involve delving into the old puppet setup a bit, unless we want to block on moving those configs to PuppetAgain(bug ",Release Engineering,version=2.1.1,1,,,,
+880421,Bump migration currentUIVersions for removing text&icons mode and un-collapsing nav-bar in nsBrowserGlue.js It looks like a UI migration slipped in from m-c and nobody noticed - that'd be from bug 870112. Our numbers are off now - currentUIVersion < 13 is now applied to two migrations - the one from bug 870112 and the one from bug 573329. This means that the one for bug 870545 needs to be bumped too.,Firefox,const UI_VERSION = 14;,1,,,,
+902125,"Add a version config/flag for Python Marionette (and JavaScript version too if we don't have one),I tried running marionette --version from the command line, but it didn't care for that one bit.
+
+I asked in #ateam and we discussed possibly adding a marionette.__version__ flag.",Testing,parser = parser_class(usage='%prog [options] test_file_or_dir <test_file_or_dir> ...'),？,13,,,
+925909,"pin versions of mozilla packages gps pointed out in http://gregoryszorc.com/blog/2013/07/16/analysis-of-firefox%27s-build-automation/ that we use ensure => latest for mozilla-built packages like Python and Mercurial.  Really, we should be specifying an explicit version there, so that it's easy to go back in hg history and use an older version, even when new versions are available in the repo.",Infrastructure & Operations,ensure => latest;,7,,,,
+942566,"Translation update proposed for apps/settings/settings.properties:already-latest-version The string:
+This is already the latest version of {{brandShortName}}
+
+Is translated as:
+Dies ist bereits die neueste Version von Firefox OS.
+
+And should be:
+Dies ist bereits die neueste Version von {{brandShortName}}.
+
+
+Feedback via Transvision:",Mozilla Localizations,already-latest-version = Dies ist bereits die neueste Version von Firefox OS.,？,18,,,
+963716,Bump gaiatest version to 0.21.4 and release to PyPI Once bug 963301 is fixed we should bump gaiatest and release a new version. That way the consumers of gaiatest can take advantage of the many recently landed new features.,Firefox OS,__version__ = '0.21.3',1,,,,
+1003729,"Update version of pip installed on automation machines from 0.8.2 to 1.5.5 From this log:
+https://tbpl.mozilla.org/php/getParsedLog.php?id=38772224&tree=Fx-Team#error3
+Ubuntu VM 12.04 x64 fx-team pgo test mochitest-e10s-4
+tst-linux64-spot-625
+
+I happened to notice we're still using pip 0.8.2 which was released sometime before 2011.
+
+We should update to something newer - current latest version is 1.5.4:
+http://www.pip-installer.org/en/latest/news.html",Release Engineering,"""pip-0.8.2.tar.gz"": ;",？,3,,,
+1005723,"Give string operator to ""Platform version"" field，STR
+1. https://crash-stats.mozilla.com/search/?signature=~_fnNCDESTROY&_facets=platform_version&_columns=date&_columns=signature&_columns=product&_columns=version&_columns=build_id&_columns=platform
+2. Go to platform version facet
+3. Click ""6.0.6000"" --> This works
+4. Go back to facet
+5. Click ""6.0.6001 Service Pack 1"" --> No results
+
+Also I would like to be able to get data like ""all crashes on Vista"" i.e. ""platform version begins with 6.0"" but there is no operator for that.", Socorro ,"SearchFilter('platform_version'),(search_common.py)                                    platform_version = form_fields.MultipleValueField(required=False)(forms.py)",5,"13,16",,,
+1011514,Update Webmaker-auth version To v0.0.14,Webmaker,"""webmaker-auth"": ""0.0.11""",2,,,,
+1055463,"Update webmaker-analytics version number in webmaker-auth-client I thought this was a simple upgrade, but I'm getting a build error on Travis: https://travis-ci.org/mozilla/webmaker-auth-client/builds/32946698
+
+""Error: the compiled source does not match the committed build
+You should run `grunt build` and commit the results to clear this error""
+
+I ran grunt build, but it wasn't modifying any files.",Webmaker,"""webmaker-analytics"": ""~0.1.0""",2,,,,
+1056037,"Bump manifestparser version and release to pypi We want to release mozmill 2.1 and we'll need to update the following packages and their dependencies once the blocking bugs have been fixed:
+- mozrunner
+- mozprofile
+- manifestparser",Testing,PACKAGE_VERSION = '0.6,1,,,,
+1059761,Bump mozprofile version and release to pypi to be picked up by mozmill,Testing,PACKAGE_VERSION = '0.21',1,,,,
+1066095,Update webmaker-auth-client in webmaker.org to latest version (0.1.14) There's a bug-fix in the bundled version of webmaker-analytics for Optimizely Goal tracking.,Webmaker,"""webmaker-analytics"": ""0.1.0"",
+""webmaker-auth-client"": ""0.1.11"",",2,,,,
+1087041,"Need to return the list of rooms with their status since the last version check on GET /rooms?version=<version>, The body of |GET /rooms/version=xxxx| is simply an array containing objects that look just like those you get from |GET /rooms/{token}|? We'd add ""token"" to the objects, but they'd otherwise be as defined here: https://wiki.mozilla.org/Loop/Architecture/Rooms#GET_.2Frooms.2F.7Btoken.7D
+",Hello (Loop),var version = req.query.version;,100,15,,,
+1134548,"Resumption attempts cap the version to the session version This means that a server that is intolerant to a higher version will not appear to be intolerant. And a server that is upgraded to support a higher version will not get an opportunity to negotiate that version.
+
+A great many implementations don't reduce the ClientHello version in this way so evidently this doesn't cause large scale compatibility issues.
+
+Given the stance on backward compatibility, we should probably add an opt-in to control this.",NSS,"if (mode_ == STREAM) { 
+     client_->CheckVersion(SSL_LIBRARY_VERSION_TLS_1_0);  
+   } else {
+     client_->CheckVersion(SSL_LIBRARY_VERSION_TLS_1_1);
+   }",4,,,,
+1145171,"Include the beta version in about:support,In the release management process (and also for QE and UA), having the beta number displayed in about:support would help a lot.The buildid is a too technical information for most of our users (and, usually, even us, we sometimes don't know).", Toolkit, let version = data.version;,100,18,,,
+1145175,"Include the beta version in ""About Firefox"",Similar to bug #1145171, in the release management process (and also for QE and UA), having the beta number displayed in About Firefox would help a lot.
+
+For now, we just have the version, no information about the beta we are running.
+
+In release, we are displaying dot releases too (example: 36.0.1)",Release Engineering,APP_VERSION := $(shell cat $(srcdir)/../../config/version.txt)(Makefile.in)                          FIREFOX_VERSION=`cat $_topsrcdir/browser/config/version.txt(configure.in),11,,,,
+1157823,"Marionette has started to depend on mozhttpd >= 0.7, but only specifies >= 0.5,We found this working on bug 1156475",Testing,mozhttpd >= 0.5,？,2,,,
+1159816,Bump marionette_client version to 0.12 and release to PyPI caused an incompatibility between the two packages on PyPI. We need to bump the version number and get a release as soon as possible.,Testing, version = '0.11',1,,,,
+1174558,"Saturday periodic updates broken by bug 1145175 including more than the version text in version.txt,Bug 1145175 turned browser/config/version.txt from ""41.0a1"" to ""41.0a1\n# Version to display in the about box:\n41.0a1"".nv --no-check-certificate http://stage.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-central/firefox-41.0a1 # Version to display in the about box: 41.0a1.en-US.linux-x86_64.tar.bz2"" which works just about as poorly as one would expect.
+
+Since the Saturday morning update of the in-tree blocklist and HSTS and HKPK data didn't know to expect that, it now tries to ""wget -",Release Engineering,"FIREFOX_VERSION=`cat $_topsrcdir/browser/config/version.txt|head -1` 
+ FIREFOX_VERSION_ABOUT=`cat $_topsrcdir/browser/config/version.txt|tail -1`",1？,11,,,
+1181161,"Handle more browser version patterns,What problem would this feature solve?
+On DOMMouseScroll [1], the KumaScript 
+""{{ CompatGeckoMobile(""0.9.7"") }}"" is used, and the importer raised an exception because 0.9.7 can't be converted to a float.
+[1] https://developer.mozilla.org/en-US/docs/Web/Events/DOMMouseScroll
+Who has this problem?
+Staff contributors to MDN
+How do you know that the users identified above have this problem?
+See the import error for this page:
+http://browsercompat.herokuapp.com/importer/868
+How are the users identified above solving this problem now?
+The import can not continue after an exception.
+Do you have any suggestions for solving the problem? Please explain in detail.
+The parser can be improved to handle ""0.9.7"", either treating it as a legitimate version number or adding it as an issue and continue parsing.
+Is there anything else we should know?
+0.9.7 appears to be an invalid Gecko engine version, so an issue is the right thing for this case.",Mozilla Developer Network,"self.assertFailsValidation(""1.0.5556"", ""unknown"")",4,,,,
+1183157,make marionette --version flag also show the transport and driver package versions,Testing,version = '0.10',1,,,,
+1200409,"|marionette --help| causes stack trace: ""unsupported format character 'p'"",When trying to print the usage for the |marionette| command I get the following stack trace:
+
+> $ marionette --help
+> Traceback (most recent call last):
+>   File ""/home/erahm/dev/areweslimyet/marionette-env/bin/marionette"", line 9, in <module>
+>     load_entry_point('marionette-client==0.19', 'console_scripts', 'marionette')()
+>   File ""/home/erahm/dev/areweslimyet/marionette-env/local/lib/python2.7/site-packages/marionette/runtests.py"", line 51, in cli
+>     args = parser.parse_args()
+>   File ""/home/erahm/dev/areweslimyet/marionette-env/local/lib/python2.7/site-packages/marionette/runner/base.py"", line 395, in parse_args
+>     args = ArgumentParser.parse_args(self, args, values)
+>   File ""/usr/lib/python2.7/argparse.py"", line 1690, in parse_args
+>     args, argv = self.parse_known_args(args, namespace)
+>   File ""/usr/lib/python2.7/argparse.py"", line 1722, in parse_known_args
+>     namespace, args = self._parse_known_args(args, namespace)
+>   File ""/usr/lib/python2.7/argparse.py"", line 1928, in _parse_known_args
+>     start_index = consume_optional(start_index)
+>   File ""/usr/lib/python2.7/argparse.py"", line 1868, in consume_optional
+>     take_action(action, args, option_string)
+>   File ""/usr/lib/python2.7/argparse.py"", line 1796, in take_action
+>     action(self, namespace, argument_values, option_string)
+>   File ""/usr/lib/python2.7/argparse.py"", line 996, in __call__
+>     parser.print_help()
+>   File ""/usr/lib/python2.7/argparse.py"", line 2329, in print_help
+>     self._print_message(self.format_help(), file)
+>   File ""/usr/lib/python2.7/argparse.py"", line 2303, in format_help
+>     return formatter.format_help()
+>   File ""/usr/lib/python2.7/argparse.py"", line 281, in format_help
+>     help = self._root_section.format_help()
+>   File ""/usr/lib/python2.7/argparse.py"", line 211, in format_help
+>     func(*args)
+>   File ""/usr/lib/python2.7/argparse.py"", line 298, in _format_usage
+>     usage = usage % dict(prog=self._prog)
+> ValueError: unsupported format character 'p' (0x70) at index 1
+
+Version info:
+> $ marionette --version
+> %prog 0.19 (using marionette-driver: 0.13, marionette-transport: 0.7)",,"usage='%prog [options] test_file_or_dir <test_file_or_dir> ...',
+version=""%prog {version} (using marionette-driver: {driver_version}""",,18,,,
+1220370,"Autophone - sync Bug 1185969 - mozdevice: ValueError(""invalid version number 'M'"",) when using the developer preview Android M We need to sync Bug 1185969 - mozdevice: ValueError(""invalid version number 'M'"",) when using the developer preview Android M with Autophone's version.",Testing,"version = self.shell_output(""getprop ro.build.version.release"", timeout=timeout, root=root)",,13,,,
+1272049,"Update VirtualBox and Vagrant version requirements in installation.rst,I had a few problems trying to run an older version of vagrant (1.7.2) with a newer version of VirtualBox 5.0.22. Although that sort-of complied with the current docs recommending vagrant 1.5+, I wonder if we should update the installation docs from:Virtualbox and Vagrant 1.5+ (recent versions recommended).to:Virtualbox and Vagrant 1.8+ (recent versions recommended).or:Virtualbox and Vagrant (latest versions recommended)....or similar :)",Tree Management,"* Install Git_, Virtualbox_ and Vagrant_ 1.5+ (recent versions recommended).",,3,,,
+1275088,"browser_mozLoop_telemetry.js is going to permafail when the Gecko version number is bumped to 50,Merge day is two weeks away 
+https://treeherder.mozilla.org/logviewer.html#?job_id=20972834&repo=try#L3123",Hello (Loop),"""expires_in_version"": ""50"",",1,,,,
+1287480,"[mozlog] Bump version to 3.3 and release to PyPI File this bug according to Bug 1287019 comment 23. Here are the fixes and new features landed in mozlog recently:
+Bug 1287019 - Make mozlog's HTML format support wptrunner screenshots
+Bug 1258343 - [mozlog] UnicodeEncodeError: 'ascii' codec can't encode character u'\xb0' in position %bar%: ordinal not in range(128)
+In Bug 1287019, we make mozlog to support proper formatting for wptrunner's log. It means that now we are able to run wpt test with ""--log-html"" to see visual results on screen. This may not be a huge deal for gecko, but it is a bigger deal for servo which is highly relying on wpt test at present. I'd like to see a version bumping and release a new version to PyPI. So, servo can be benefited from Bug 1287019 as well.",Testing,PACKAGE_VERSION = '3.2',1,,,,
+1302373,Upgrade hg version to 3.9.1 on Linux build and test machines ,Release Engineering,ensure => '3.7.3-1.el6' (py27_mercurial.pp)                                                                         Version:    3.7.(py27_mercurial.spec ),7,,,,
+1332490,"[docker-worker] Update docker to a more modern version,Our workers are still using 1.10.  We need to update to at least 1.12.6 to include some fixes to races within docker itself.  Also, methods that were deprecated in 1.12 will need to be updated (such as hostconfig no longer being specified in a start config)
+",Taskcluster,"""dockerode"": ""^2.2.0"",(package.json)                                                                 DOCKER_VERSION=1.10.1-0~trusty(packages.sh)                                                               ""image"": ""taskcluster/worker-ci:0.1.0"",(taskgraph.json)",2,,,,
+1341002,"Assertion failure: ss->ssl3.prSpec->version <= SSL_LIBRARY_VERSION_TLS_1_2, at ../../lib/ssl/ssl3con.c:9798 When receiving a certificate_verify as the very first message in a new TLS session we currently assert as |prSpec->version == ss->vrange.max|. Only after seeing a client_hello we'd correctly set that version to what's been negotiated. > /* TLS 1.3 is handled by tls13_HandleCertificateVerify */
+> PORT_Assert(ss->ssl3.prSpec->version <= SSL_LIBRARY_VERSION_TLS_1_2);
+",NSS,"TEST_P(TlsAgentTestClient, CannedHello)                                                                  TEST_P(TlsAgentTestClient, EncryptedExtensionsInClear)",5,,,,
+1353032,"python_moztelemetry installing wrong version of happybase on ATMO,When trying to use HBase views on default ATMO clusters I get the following error:
+
+Caused by: org.apache.spark.api.python.PythonException: Traceback (most recent call last):
+  File ""/mnt/yarn/usercache/hadoop/appcache/application_1491224809382_0013/container_1491224809382_0013_01_000005/pyspark.zip/pyspark/worker.py"", line 172, in main
+    process()
+  File ""/mnt/yarn/usercache/hadoop/appcache/application_1491224809382_0013/container_1491224809382_0013_01_000005/pyspark.zip/pyspark/worker.py"", line 167, in process
+    serializer.dump_stream(func(split_index, iterator), outfile)
+  File ""/mnt/yarn/usercache/hadoop/appcache/application_1491224809382_0013/container_1491224809382_0013_01_000005/pyspark.zip/pyspark/serializers.py"", line 263, in dump_stream
+    vs = list(itertools.islice(iterator, batch))
+  File ""/mnt/anaconda2/lib/python2.7/site-packages/moztelemetry/hbase.py"", line 166, in _get_range
+    columns=[self.column_family], reverse=reverse):
+TypeError: scan() got an unexpected keyword argument 'reverse'
+
+        at org.apache.spark.api.python.PythonRunner$$anon$1.read(PythonRDD.scala:193)
+        at org.apache.spark.api.python.PythonRunner$$anon$1.<init>(PythonRDD.scala:234)
+        at org.apache.spark.api.python.PythonRunner.compute(PythonRDD.scala:152)
+        at org.apache.spark.api.python.PythonRDD.compute(PythonRDD.scala:63)
+        at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:319)
+        at org.apache.spark.rdd.RDD.iterator(RDD.scala:283)
+        at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:70)
+        at org.apache.spark.scheduler.Task.run(Task.scala:86)
+        at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:274)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        ... 1 more
+
+
+
+As far as I can tell, the issue appears to be that we're using the wrong version of happybase. We specify an alternate dependency link for happybase in python_moztelemetry's setup.py [0]. However, it looks like this dependency is not being installed by default on atmo clusters. 
+
+[0] https://github.com/mozilla/python_moztelemetry/blob/master/setup.py#L22",Cloud Services,"happybase>=1.0.0', 'PyYAML', 'python-snappy'],                                                      dependency_links=['https://github.com/wbolster/happybase/archive/33b7700375ba59f1810c30c8cd531577b0718498.zip#egg=happybase-1.0.1'],",,"2,19",,,
+1359536,Incorrect js-ctypes ABI for GetVersionEx in toolkit/mozapps/update/nsUpdateService.js  Fix incorrect ABI for js-ctypes declaration of GetVersionExW;,Toolkit,"let GetVersionEx = kernel32.declare(""GetVersionExW"",
+                                          ctypes.default_abi,",,13,,,
+1365290,"Pushapk fails in 54.0b8 due to google-api-python-client python version conflict Looks like a python version mismatch over there, most likely a fallback from our puppet version change the other day. /__init__.py"", line 834, in resolve
+    raise VersionConflict(dist, req).with_context(dependent_req)
+pkg_resources.ContextualVersionConflict: (google-api-python-client 1.6.2 (/builds/scriptworker/lib/python3.5/site-packages), Requirement.parse('google-api-python-client==1.5.3'), {'mozapkpublisher'})
+exit code: 1
+
+Full log here: https://public-artifacts.taskcluster.net/LXAaGWSYRM6VroGjIYpFKA/0/public/logs/live_backing.log 
+
+Most likely we need to update the python version or so.",Release Engineering,"""taskcluster==1.3.1"",",2,,,,
+1366757,"Automate the NSPR version requirement when creating NSS release archives.We should make it easier to create correct NSS release archives. As of today
+  ./nss/automation/release/nss-release-helper.py create_nss_release_archive
+requires to manually specify the minimum NSPR version that will be used when creating the combined NSS+NSPR release source archive.
+In particular when creating patch releases of older NSS branches, it's easy to make an error here, unless the operator carefully examines the past release archives.
+To simplify the process, I suggest the following approach:
+- we add a new text file to NSS, which contains the minimum required
+  version number for this NSS release.
+  This file should be updated by developers, if the NSPR version requirement
+  for a given NSS branch changes.
+- We remove the NSPR version parameter from the create_nss_release_archive
+  command, and instead read that information from the new text file",NSS,"ensure_arguments_after_action(4, ""nss_release_version  nss_hg_release_tag  nspr_release_version  path_to_stage_directory"")",13,,,,
+1366916,"version bumping dies during b9 -> b10 bumps,05:39:18     INFO - [mozharness: 2017-05-19 12:39:18.336358Z] Running bump_postrelease step.
+05:39:18     INFO - Running main action method: bump_postrelease
+05:39:18     INFO - Reading from file /builds/slave/rel-m-beta-fx_version_bump-000/build/mozilla-beta/browser/config/version_display.txt
+05:39:18     INFO - Contents:
+05:39:18     INFO -  54.0b9
+05:39:18  WARNING - Version bumping skipped due to conflicting values
+05:39:18     INFO - [mozharness: 2017-05-19 12:39:18.337676Z] Finished bump_postrelease step (success)
+
+This is from https://hg.mozilla.org/releases/mozilla-beta/rev/b2d5406972e6 , which saves us a lot of headache, but does an alphabetical comparison rather than a numeric one.  54.0b9 > 54.0b10, since 9 > 1.
+
+We should probably do a numeric comparison here, which may involve a smarter split than just splitting by '.'
+
+We should also probably consider going orange or something if the bump fails.",Release Engineering,"curr_version = self.get_version(dirs['abs_gecko_dir'], f[""file""])                                   next_version = self.config['next_version'].split('.')                                ",,17,,,
+1372918,always send data_version as an int Another bug in the balrog client tools uncovered by the swagger work. I intend to land this along with bug 1369781 once we're clear of release work.,Release Engineering,"data['data_version'] = res.headers['X-Data-Version'](api.py)                                                    return (json.loads(resp.content), resp.headers['X-Data-Version'])(api.py)                                     version=""0.0.3""(setup.py)",,15,,,
+1374644,"update DXR's mercurial version,DXR has a pinned requirement on Mercurial==3.4.2. This should really be updated to at least match hg.mozilla.org (4.1.2).
+It's currently causing an issue trying to get clonebundles working properly. Something is calling hg to update the clones and getting DXR's version, instead of /usr/bin/hg (4.1.3), and throwing errors. I'm not sure what it is, as I've updated the docker entrypoint script to use the full path, but updating DXR is still the correct thing to do.", Webtools,testedwith = '3.4'(previous_revisions.py),2,,,,
+1385028,"[mac] simplify the handling of macOS minor version in the sandbox policy Right now we pass a series of bools (really ""TRUE"" or ""FALSE"" strings) to the policy, one for each version check we need to perform.
+
+We can just pass the version as an integer-as-a-string and use string->number. This should improve the readability of our sandbox policy.",core,"params.push_back(""MAC_OS_MINOR_9"");
+params.push_back(OSXVersion::OSXVersionMinor() == 9 ? ""TRUE"" : ""FALSE"");
+params.push_back(""MAC_OS_MINOR_MIN_13"");
+params.push_back(OSXVersion::OSXVersionMinor() >= 13 ? ""TRUE"" : ""FALSE"");",,3,,,
+1408100,"Upgrade Bootstrap to 4,This is the latest version.  And while it's in Beta, still worth moving to now.  This is necessary to migrate the test-based view into the main repo.",Tree Management,"angular-route', 'angular-sanitize', 'angular-toarrayfilter', 'angular-ui-bootstrap',(base.js)",,6,,,       
+1410152,"SyncView should handle android passing in version 5 pings.Unfortunately, Android reports the wrong top-level document version in it's pings. (bug 1410145). It's easy to fix this in the scala, and while it sucks for a bunch of other reasons (makes bumping the top level version trickier), ISTM like it would suck more to lose the data.
+
+Unfortunately, this probably will need to run (yet another) backfill for the sync views (extremely sorry about not catching this before the last one...).",Cloud Services,"case ""4"" => true(SyncEventView.scala)                                                                  |  ""version"": 4,(SyncViewTestPayloads.scala)",8,,,,
+1415569,Make version 10.0.14393.0 the minimum Win10 SDK required for building Firefox,core,minimum_ucrt_version = Version('10.0.10586.0'),1,,,,
