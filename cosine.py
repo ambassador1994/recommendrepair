@@ -38,4 +38,4 @@ def cosine(str1, str2):
     return cosine_similarity(vec1, vec2)
 
 
-print(cosine('versionaaaaaa', 'version'))
+# print(cosine('versionaaaaaa', 'version'))

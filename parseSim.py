@@ -10,7 +10,7 @@ def recommand(id, keywords):
     print(codeFileNames)
 
     for codeFileName in codeFileNames:
-        with open("codes\\" + codeFileName, "r") as f:
+        with open("codes\\" + codeFileName, "r", encoding="utf8") as f:
             codeLines = [i for i in f.readlines()]
 
         codeWords = []
@@ -21,16 +21,26 @@ def recommand(id, keywords):
 
         keyLines = set()
         for keyword in keywords:
-            for lineWords in codeWords:
-                for i,word in enumerate(lineWords):
-                    if 50 < cosine(word, keyword) < 99:
+            for i,lineWords in enumerate(codeWords):
+                for word in lineWords:
+                    if 90 < cosine(word, keyword) < 100:
                         keyLines.add(i)
-                        print("simword", word)
+                        print("similar word: line", i, word)
+
+        keyLines = list(keyLines)
+        keyLines.sort()
         print("keyLines", keyLines)
         keyLineCodes = [codeLines[i] for i in keyLines]
-        print(keyLineCodes)
+        print()
+        print("推荐结果")
+        # print(keyLineCodes)
+        for i in keyLineCodes:
+            print(i, end='')
+        print()
+        return keyLineCodes
 
 
 # def searchRecommandLine(codesFile, keyword):
+if __name__ == "__main__":
 
-recommand("1003729",["ff"])
+    recommand("1003729",["ff"])
